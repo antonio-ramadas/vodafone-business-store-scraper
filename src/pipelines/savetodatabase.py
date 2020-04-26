@@ -1,8 +1,11 @@
-import scrapy
+import os
+
+import psycopg2
 
 
-class SaveToDatabasePipeline(scrapy.Spider):
-    name = 'drop_existent_products_pipeline'
+class SaveToDatabase:
+    DATABASE_URL = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
     # TODO connect to DB and drop existent elements
     def process_item(self, item, spider):
