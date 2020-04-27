@@ -5,7 +5,7 @@ from scrapy.exceptions import DropItem
 
 class DuplicatesFilter:
     """
-    Stateless validator able to be an `Item Pipeline component
+    Stateless filter able to be an `Item Pipeline component
     <https://docs.scrapy.org/en/2.1/topics/item-pipeline.html>`_ on Scrappy.
 
     This class removes duplicates of :py:class:`src.domain.product.Product` by dropping them.
