@@ -1,7 +1,7 @@
+import logging
 import re
 
 import validators
-import logging
 from scrapy.exceptions import DropItem
 
 

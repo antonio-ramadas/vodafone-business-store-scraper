@@ -61,10 +61,11 @@ class VodafoneBusinessStore(scrapy.Spider):
 
                 VodafoneBusinessStore.__logger.debug('Not on the last page (%i out of %i).', i+1, len(pages))
                 return False
+        else:
+            VodafoneBusinessStore.__logger.warning("Found no pagination! url='%s'", response.url)
 
         VodafoneBusinessStore.__logger.warning('Active page not found. Assuming it is the last.')
 
-        # There are no pages, default to assume it is last page
         return True
 
     def parse(self, response):
@@ -89,3 +90,5 @@ class VodafoneBusinessStore(scrapy.Spider):
                 yield scrapy.Request(self.next_page(response.url), self.parse)
             else:
                 VodafoneBusinessStore.__logger.debug('On the last page. Not making further requests or extractions.')
+        else:
+            VodafoneBusinessStore.__logger.warning("Found no products! url='%s'", response.url)
