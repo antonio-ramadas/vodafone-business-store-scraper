@@ -12,14 +12,15 @@ class PostgreSqlDatabase(Database):
         super().__init__()
         try:
             self.connection = psycopg2.connect(database_url, sslmode='require')
+            self.connection.autocommit = False
             self.cursor = self.connection.cursor()
         except Exception as exception:
-            PostgreSqlDatabase.__logger.error("Could not connect to database! url='{}' exception='{}'",
-                                              database_url, exception)
-            raise exception
-        finally:
             if self.connection:
                 self.close()
+
+            PostgreSqlDatabase.__logger.error("Could not connect to database! url='%s' exception='%s'",
+                                              database_url, exception)
+            raise exception
 
         self.__init_schema()
         self.__init_table()
@@ -44,8 +45,24 @@ class PostgreSqlDatabase(Database):
         PostgreSqlDatabase.__logger.info('Created table')
 
     def insert(self, product):
-        # TODO insert given product and see if it already existed
-        pass
+        query_parameters = {
+            'name': product['name'],
+            'price': product['price'],
+            'url': product['url']
+        }
+
+        self.cursor.execute('SELECT EXISTS(SELECT 1 from vodafone.products WHERE name=%(name)s);', query_parameters)
+
+        did_the_product_already_exist = self.cursor.fetchone()[0]
+
+        self.cursor.execute('''
+            INSERT INTO vodafone.products (name, price, url) VALUES (%(name)s, %(price)s, %(url)s)
+                ON CONFLICT (name) DO UPDATE SET price=%(price)s;
+        ''', query_parameters)
+
+        self.connection.commit()
+
+        return not did_the_product_already_exist
 
     def close(self):
         self.cursor.close()
