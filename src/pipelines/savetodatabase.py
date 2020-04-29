@@ -64,8 +64,8 @@ class SaveToDatabase:
         is_new_item = self.db.insert(item)
 
         if is_new_item:
-            SaveToDatabase.__logger.debug('Inserted new product on the database: {}', item)
+            SaveToDatabase.__logger.debug('Inserted new product on the database: %s', item)
             return item
         else:
-            SaveToDatabase.__logger.info('Product already exists on the database: {}', item)
+            SaveToDatabase.__logger.info('Product already exists on the database: %s', item)
             raise DropItem('Product already exists on the database: %s' % item)

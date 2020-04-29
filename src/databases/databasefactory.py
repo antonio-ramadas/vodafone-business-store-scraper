@@ -26,10 +26,11 @@ class DatabaseFactory:
         vendor = database_url[:database_url.find(':')]
 
         if vendor in DatabaseFactory.__vendors:
-            DatabaseFactory.__logger.info("Retrieving database for vendor '{}'", vendor)
+            DatabaseFactory.__logger.info("Retrieving database for vendor '%s'", vendor)
             return DatabaseFactory.__vendors[vendor](database_url)
         else:
-            DatabaseFactory.__logger.error("Requested vendor is not supported! vendor='{}' database_url='{}'",
+            DatabaseFactory.__logger.error("Requested vendor is not supported! vendor='%s' database_url='%s'",
                                            vendor, database_url)
             supported_vendors = ','.join(DatabaseFactory.__vendors.keys())
-            raise ValueError("Invalid vendor requested! Got '%s' but should be one of '%s'" % vendor, supported_vendors)
+            raise ValueError(
+                "Invalid vendor requested! Got '%s' but should be one of '%s'" % (vendor, supported_vendors))
