@@ -9,11 +9,15 @@ if __name__ == '__main__':
 
     settings.set(EnvironmentVariables.DATABASE_URL_ARG, EnvironmentVariables.DATABASE_URL)
 
+    settings.set(EnvironmentVariables.NOTIFIER_ARG, EnvironmentVariables.NOTIFIER)
+    settings.set(EnvironmentVariables.SLACK_TOKEN_ARG, EnvironmentVariables.SLACK_TOKEN)
+    settings.set(EnvironmentVariables.SLACK_CHANNEL_ARG, EnvironmentVariables.SLACK_CHANNEL)
+
     settings.set('ITEM_PIPELINES', {
         'src.pipelines.productvalidator.ProductValidator': 100,
         'src.pipelines.duplicatesfilter.DuplicatesFilter': 200,
         'src.pipelines.savetodatabase.SaveToDatabase': 300,
-        # 'src.pipelines.notifier.Notifier': 400
+        # 'src.pipelines.productnotifier.ProductNotifier': 400
     })
 
     process = CrawlerProcess(settings)
