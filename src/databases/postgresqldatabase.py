@@ -22,15 +22,22 @@ class PostgreSqlDatabase(Database):
                                               database_url, exception)
             raise exception
 
+        PostgreSqlDatabase.__logger.info('PostgreSQL database connected.')
         self.__init_schema()
         self.__init_table()
 
     def __init_schema(self):
+        """
+        Creates the schema if it does not exist.
+        """
         self.cursor.execute('CREATE SCHEMA IF NOT EXISTS vodafone;')
         self.connection.commit()
-        PostgreSqlDatabase.__logger.info('Created schema')
+        PostgreSqlDatabase.__logger.info('Created schema.')
 
     def __init_table(self):
+        """
+        Creates the table for the products if it does not exist.
+        """
         create_table = '''
         create table if not exists vodafone.products(
             id    serial not null constraint products_pk primary key,
@@ -42,7 +49,7 @@ class PostgreSqlDatabase(Database):
         '''
         self.cursor.execute(create_table)
         self.connection.commit()
-        PostgreSqlDatabase.__logger.info('Created table')
+        PostgreSqlDatabase.__logger.info('Created table.')
 
     def insert(self, product):
         query_parameters = {
@@ -62,8 +69,14 @@ class PostgreSqlDatabase(Database):
 
         self.connection.commit()
 
+        if did_the_product_already_exist:
+            PostgreSqlDatabase.__logger.debug("Updated price of existent product in database. product='%s'", product)
+        else:
+            PostgreSqlDatabase.__logger.debug("Added new product to the database. product='%s'", product)
+
         return not did_the_product_already_exist
 
     def close(self):
         self.cursor.close()
         self.connection.close()
+        PostgreSqlDatabase.__logger.info('PostgreSQL database connection closed.')

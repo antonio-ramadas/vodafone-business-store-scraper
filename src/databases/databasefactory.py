@@ -21,7 +21,7 @@ class DatabaseFactory:
         Throws :py:class:`builtins.ValueError` if vendor is not configured.
 
         :param database_url: URL to database.
-        :return: Concrete instance of :py:class:`src.databases.database.Database`
+        :return: Concrete instance of :py:class:`src.databases.database.Database`.
         """
         vendor = database_url[:database_url.find(':')]
 
