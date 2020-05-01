@@ -18,6 +18,15 @@ class Notifier:
         pass
 
     @abstractmethod
+    def warning(self, msg):
+        """
+        Synchronously notifies about a warning.
+
+        :param msg: Warning to be published.
+        """
+        pass
+
+    @abstractmethod
     def error(self, msg):
         """
         Synchronously notifies about an error.

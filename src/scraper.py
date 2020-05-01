@@ -17,7 +17,7 @@ if __name__ == '__main__':
         'src.pipelines.productvalidator.ProductValidator': 100,
         'src.pipelines.duplicatesfilter.DuplicatesFilter': 200,
         'src.pipelines.savetodatabase.SaveToDatabase': 300,
-        # 'src.pipelines.productnotifier.ProductNotifier': 400
+        'src.pipelines.productnotifier.ProductNotifier': 400
     })
 
     process = CrawlerProcess(settings)

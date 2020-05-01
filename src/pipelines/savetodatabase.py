@@ -20,6 +20,8 @@ class SaveToDatabase:
     def __init__(self, database_url):
         """
         Stores the database URL.
+
+        :param database_url: URL of the database to connect to.
         """
         self.database_url = database_url
 
@@ -30,7 +32,7 @@ class SaveToDatabase:
 
         The single required configured parameter is `src.environmentvariables.EnvironmentVariables.DATABASE_URL_ARG`.
 
-        :param crawler: Unused.
+        :param crawler: Used to choose the appropriate database.
         :return: :py:class:`src.pipelines.savetodatabase.SaveToDatabase` instance.
         """
         return cls(crawler.settings.get(EnvironmentVariables.DATABASE_URL_ARG))

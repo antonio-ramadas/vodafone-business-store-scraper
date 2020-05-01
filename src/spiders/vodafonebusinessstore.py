@@ -4,6 +4,7 @@ import logging
 import scrapy
 
 from src.domain.product import Product
+from src.notifiers.notifierfactory import NotifierFactory
 
 
 class VodafoneBusinessStore(scrapy.Spider):
@@ -75,7 +76,13 @@ class VodafoneBusinessStore(scrapy.Spider):
         :param response: argument of type :py:class:`scrapy.http.Response`
         :return: Yields either an extracted :py:class:`src.domain.product.Product` or a :py:class:`scrapy.http.Request`
         """
-        for selector in response.css('.cost'):
+        selectors = response.css('.cost')
+
+        if len(selectors) == 0:
+            VodafoneBusinessStore.__logger.warning("Found no products! url='%s'", response.url)
+            NotifierFactory.get_notifier(self.settings).warning("Found no products! url='%s'" % response.url)
+
+        for selector in selectors:
             product = Product(
                 name=selector.css('.productName > a')[0].root.text.strip(),
                 price=selector.css('.piners > h3')[0].root.text.strip(),
@@ -90,5 +97,3 @@ class VodafoneBusinessStore(scrapy.Spider):
                 yield scrapy.Request(self.next_page(response.url), self.parse)
             else:
                 VodafoneBusinessStore.__logger.debug('On the last page. Not making further requests or extractions.')
-        else:
-            VodafoneBusinessStore.__logger.warning("Found no products! url='%s'", response.url)
