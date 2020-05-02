@@ -40,10 +40,11 @@ class PostgreSqlDatabase(Database):
         """
         create_table = '''
         create table if not exists vodafone.products(
-            id    serial not null constraint products_pk primary key,
-            name  text   not null,
-            price text   not null,
-            url   text   not null);
+            id          serial not null constraint products_pk primary key,
+            created_at  TIMESTAMP default CURRENT_TIMESTAMP,
+            name        text   not null,
+            price       text   not null,
+            url         text   not null);
 
         create unique index if not exists products_name_uindex on vodafone.products (name);
         '''
