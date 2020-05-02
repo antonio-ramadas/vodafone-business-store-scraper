@@ -1,3 +1,4 @@
 Scrapy~=2.1.0
 validators~=0.14.3
 slackclient~=2.5.0
+psycopg2-binary~=2.8.5
