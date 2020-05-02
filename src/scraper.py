@@ -30,6 +30,8 @@ class Scraper:
             # 'src.pipelines.productnotifier.ProductNotifier': 400
         })
 
+        settings.set('TELNETCONSOLE_ENABLED', False)
+
         process = CrawlerProcess(settings)
         process.crawl(VodafoneBusinessStore)
         process.start()
