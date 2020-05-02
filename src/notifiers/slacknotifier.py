@@ -60,6 +60,12 @@ class SlackNotifier(Notifier):
             self.client.conversations_join(channel=self.channel_id)
             SlackNotifier.__logger.info("Joined Slack channel '%s'.", channel)
         except SlackApiError as e:
+            if e.response['error'] == 'is_archived':
+                SlackNotifier.__logger.error("Requested channel '%s' is archived. Slack bot cannot post messages there."
+                                             " Please unarchive it or choose another channel.", channel)
+                raise ValueError("Requested channel '%s' is archived. Slack bot cannot post messages there. "
+                                 "Please unarchive it or choose another channel." % channel)
+
             SlackNotifier.__logger.warning(
                 "Failed to join channel '%s' due to '%s'. You can ignore this warning if the bot has already joined.",
                 channel, e.response['error'])
