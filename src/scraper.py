@@ -27,7 +27,7 @@ class Scraper:
             'src.pipelines.productvalidator.ProductValidator': 100,
             'src.pipelines.duplicatesfilter.DuplicatesFilter': 200,
             'src.pipelines.savetodatabase.SaveToDatabase': 300,
-            # 'src.pipelines.productnotifier.ProductNotifier': 400
+            'src.pipelines.productnotifier.ProductNotifier': 400
         })
 
         settings.set('TELNETCONSOLE_ENABLED', False)
