@@ -5,6 +5,9 @@ class EnvironmentVariables:
     """
     Static class that holds all the available environment variables that are accessed by the program.
     """
+    PORT_ARG = 'PORT'
+    PORT = os.getenv(PORT_ARG)
+
     DATABASE_URL_ARG = 'DATABASE_URL'
     DATABASE_URL = os.getenv(DATABASE_URL_ARG)
 
