@@ -18,7 +18,7 @@ This project is overly complex for what it does, and that is a good thing as I p
 
 There are a lot of logs that were more useful than I am proud to say, factories and a pool (I'm talking about design patterns), a database, a Slack bot, a cloud provider and a cronjob. All these are glued together to provide a good solution to go shopping.
 
-Now, I just need to keep an eye on [Slack](#notifier-slack) and have a [cronjob](#cronjob) triggering [Heroku](#heroku) to run this project everyday at 3 a.m.. All this without paying anything!
+Now, I just need to keep an eye on [Slack](#notifier-slack) and have a [cronjob](#cronjob) triggering [Heroku](#heroku) to run this project every day at 3 a.m.. All this without paying anything!
 
 ## Requirements
 
@@ -57,7 +57,7 @@ You can skip the server altogether by instead just calling the method [`Scraper(
 
 ## Vodafone Business Store - Music Accessories
 
-You can access it [here](https://loja.negocios.vodafone.pt/loja/acessorios/catalogo?&categoria=Som&icmp=quicklinks-acessorios-som-3) (in portuguese). As you can see, there is a section with the products:
+You can access it [here](https://loja.negocios.vodafone.pt/loja/acessorios/catalogo?&categoria=Som&icmp=quicklinks-acessorios-som-3) (in Portuguese). As you can see, there is a section with the products:
 
 ![Vodafone Business Store - Music Accessories - listing](resources/vodafone-business-store-music-accessories-listing.png)
 
@@ -65,7 +65,7 @@ If you opened the webpage (and you waited for it to load completely...), you'll 
 
 ![Vodafone Business Store - Music Accessories - inspect](resources/vodafone-business-store-music-accessories-inspect.png)
 
-Scraping the HTML from this webpage is easier, faster and has all the informations we need (name, price and URL). So, we can stick with it.
+Scraping the HTML from this webpage is easier, faster and has all the information we need (name, price and URL). So, we can stick with it.
 
 ## Product
 
@@ -93,7 +93,7 @@ All these steps are optional and their order can be changed with no restrictions
 
 ## Database (PostgreSQL)
 
-PostgreSQL has been chosen because Heroku has it out-of-the-box. Besides, it is well maintained, very well documented, has a great community and a lot of StackOverflow answers that bootstrap the development by 10x (I'm exaggerating, obviously).
+PostgreSQL has been chosen because Heroku has it out-of-the-box. Besides, it is well maintained, very well documented, has a great community and a lot of Stack Overflow answers that bootstrap the development by 10x (I'm exaggerating, obviously).
 
 ### Schema
 
@@ -161,4 +161,4 @@ With the application deployed, it just leaves to [set up a cronjob](https://cron
 
 ![Cronjob](resources/cronjob.png)
 
-It runs everyday at 3 a.m. and notifies me if something goes wrong. Notice, that the request may succeed and the application still break, because a request succeeds before the scraping process starts.
+It runs every day at 3 a.m. and notifies me if something goes wrong. Notice, that the request may succeed and the application still break, because a request succeeds before the scraping process starts.
