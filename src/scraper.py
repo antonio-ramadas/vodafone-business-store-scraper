@@ -35,3 +35,7 @@ class Scraper:
         process = CrawlerProcess(settings)
         process.crawl(VodafoneBusinessStore)
         process.start()
+
+
+if __name__ == '__main__':
+    Scraper.scrape()

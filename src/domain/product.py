@@ -9,3 +9,6 @@ class Product(scrapy.Item):
     name = scrapy.Field()
     price = scrapy.Field()
     url = scrapy.Field()
+
+    def __str__(self):
+        return super.__str__(self).replace('\n', '')
