@@ -20,11 +20,10 @@ class VodafoneBusinessStore(scrapy.Spider):
 
     name = 'vodafone_business_store'
     start_urls = ['https://loja.negocios.vodafone.pt/cs/Satellite?cid=1423846891501&pageId=1423846891522&pagename'
-                  '=SiteEntryProductCatalog&query=c%3DOnlineStore_C%26categoria%3DSom%26cid%3D1423846891501%26d'
-                  '%3DTouch%26icmp%3Dquicklinks-acessorios-som-3%26pageId%3D1423846891522%26pagename%3DOnlineB2B'
-                  '%252FOnlineStore_C%252FCatalog%252FRenderCatalog%26trid%3D%26ns%3D1%26ajaxRequest%3D1%26null&site'
-                  '=OnlineB2B&tid=1423845689128&hm=1313&trid=&ajaxRequest=1&filters=%7B%22CATGR-CL-OR-filter%22%3A%5B'
-                  '%221423967921535%22%5D%7D&fd=date&ord=1&p=1']
+                  '=SiteEntryProductCatalog&query=c%3DOnlineStore_C%26cid%3D1423846891501%26d%3DTouch%26icmp%3Debu'
+                  '-quicklinks-hploja-acessorios-3%26pageId%3D1423846891522%26pagename%3DOnlineB2B%252FOnlineStore_C'
+                  '%252FCatalog%252FRenderCatalog%26trid%3D%26ns%3D1%26ajaxRequest%3D1%26null&site=OnlineB2B&filters'
+                  '=%7B%7D&fd=date&ord=1&p=1']
 
     def next_page(self, current):
         """
@@ -82,11 +81,18 @@ class VodafoneBusinessStore(scrapy.Spider):
             VodafoneBusinessStore.__logger.warning("Found no products! url='%s'", response.url)
             NotifierFactory.get_notifier(self.settings).warning("Found no products! url='%s'" % response.url)
 
+        URL_HOST = 'https://loja.negocios.vodafone.pt'
+
         for selector in selectors:
+            url = selector.css('.productName > a')[0].root.attrib['href']
+
+            if not url.startswith(URL_HOST):
+                url = URL_HOST + url
+
             product = Product(
                 name=selector.css('.productName > a')[0].root.text.strip(),
                 price=selector.css('.piners > h3')[0].root.text.strip(),
-                url=selector.css('.productName > a')[0].root.attrib['href'])
+                url=url)
 
             VodafoneBusinessStore.__logger.debug('Extracted new Product: %s', product)
             yield product
