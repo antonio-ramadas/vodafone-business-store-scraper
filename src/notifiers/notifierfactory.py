@@ -1,6 +1,7 @@
 import logging
 
 from src.environmentvariables import EnvironmentVariables
+from src.notifiers.lognotifier import LogNotifier
 from src.notifiers.slacknotifier import SlackNotifier
 
 
@@ -11,7 +12,8 @@ class NotifierFactory:
     __logger = logging.getLogger(__name__)
 
     __notifiers = {
-        'slack': None
+        'slack': None,
+        'log': None
     }
 
     @staticmethod
@@ -47,6 +49,8 @@ class NotifierFactory:
             notifier_instance = SlackNotifier(
                 token=crawler_settings.get(EnvironmentVariables.SLACK_TOKEN_ARG),
                 channel=crawler_settings.get(EnvironmentVariables.SLACK_CHANNEL_ARG))
+        elif notifier == 'log':
+            notifier_instance = LogNotifier()
         else:
             NotifierFactory.__logger.error("Unimplemented notifier found! notifier='%s'", notifier)
             raise ValueError("Unimplemented notifier found! notifier='%s'" % notifier)
