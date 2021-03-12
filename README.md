@@ -1,6 +1,6 @@
 # :spider: Vodafone Business Store Scraper
 
-Python project that crawls the Vodafone Business Store of Music Accessories and notifies when a new product has been published.
+Python project that crawls the Vodafone Business Store and notifies when a new product has been published.
 
 You can most likely change the start URL and it'll work for other pages from the Vodafone Store. I did not test, so take it with a grain of salt.
 
@@ -42,7 +42,7 @@ python3 src/server.py
 ```
 
 If you find an error like:
-```requirements.txt
+```
 Traceback (most recent call last):
   File "src/server.py", line 4, in <module>
     from src.environmentvariables import EnvironmentVariables
@@ -55,17 +55,19 @@ Now that the app is running, it started an HTTP server and by sending a POST req
 
 You can skip the server altogether by instead just calling the method [`Scraper().scrape()`](src/scraper.py).
 
-## Vodafone Business Store - Music Accessories
+## Vodafone Business Store
 
-You can access it [here](https://loja.negocios.vodafone.pt/loja/acessorios/catalogo?&categoria=Som&icmp=quicklinks-acessorios-som-3) (in Portuguese). As you can see, there is a section with the products:
+> Side note: Initial version required scrapping an HTML response. You can navigate through git history to get a better picture why [Scrapy](https://scrapy.org/) was chosen. The description below was adapted from Vodafone API changes and it reflects the current implementation.
+
+You can access it [here](https://www.vodafone.pt/loja/acessorios.html?segment=business) (in Portuguese). As you can see, there is a section with the products:
 
 ![Vodafone Business Store - Music Accessories - listing](resources/vodafone-business-store-music-accessories-listing.png)
 
-If you opened the webpage (and you waited for it to load completely...), you'll see that the page is not very scraper friendly. The products are loaded with JavaScript. However, by inspecting the queries we can get a [bloat free listing with no JavaScript required](https://loja.negocios.vodafone.pt/cs/Satellite?cid=1423846891501&pageId=1423846891522&pagename=SiteEntryProductCatalog&query=c%3DOnlineStore_C%26categoria%3DSom%26cid%3D1423846891501%26d%3DTouch%26icmp%3Dquicklinks-acessorios-som-3%26pageId%3D1423846891522%26pagename%3DOnlineB2B%252FOnlineStore_C%252FCatalog%252FRenderCatalog%26trid%3D%26ns%3D1%26ajaxRequest%3D1%26null&site=OnlineB2B&tid=1423845689128&hm=1313&trid=&ajaxRequest=1&filters=%7B%22CATGR-CL-OR-filter%22%3A%5B%221423967921535%22%5D%7D&fd=date&ord=1&p=1):
+If you opened the webpage (and you waited for it to load completely...), you'll there is an endpoint that returns a JSON object with all the products. Bloat free and everything we need. see that the page is not very scraper friendly. The products are loaded with JavaScript. However, by inspecting the queries we can get a [bloat free listing with no JavaScript required](https://www.vodafone.pt/bin/mvc.do/eshop/catalogs/catalog?collectionPath=&catalogType=Accessory&pageModel=%2Floja%2Facessorios.html&filterCatalog=true):
 
 ![Vodafone Business Store - Music Accessories - inspect](resources/vodafone-business-store-music-accessories-inspect.png)
 
-Scraping the HTML from this webpage is easier, faster and has all the information we need (name, price and URL). So, we can stick with it.
+That single request is a whopping 1.33MB uncompressed that took 6.62ms. This might be painful for the visitors, but not problematic for a scraper. So, we can stick with it.
 
 ## Product
 
