@@ -34,7 +34,7 @@ class VodafoneBusinessStore(scrapy.Spider):
             VodafoneBusinessStore.__logger.warning("Found no products! url='%s'", response.url)
             NotifierFactory.get_notifier(self.settings).warning("Found no products! url='%s'" % response.url)
 
-        URL_HOST = 'https://loja.negocios.vodafone.pt'
+        URL_HOST = 'https://www.vodafone.pt'
 
         counter = 0
 
@@ -46,9 +46,18 @@ class VodafoneBusinessStore(scrapy.Spider):
                         "Ignoring product because it is only sold in-store. product='%s'", variant)
                     continue
 
+                try:
+                    price = round(pvp[0]['price'], 2)
+                except:
+                    VodafoneBusinessStore.__logger.error(
+                        "Error rounding price. price='%s' product='%s'", pvp[0]['price'], variant)
+                    NotifierFactory.get_notifier(self.settings).error(
+                        "Error rounding price1. price='%s' product='%s'" % (pvp[0]['price'], variant))
+                    continue
+
                 product = Product(
                     name=variant['name'],
-                    price=pvp[0]['price'],
+                    price=price,
                     url=URL_HOST + variant['pageLink']
                 )
 
