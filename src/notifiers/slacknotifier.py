@@ -100,7 +100,7 @@ class SlackNotifier(Notifier):
         try:
             self.client.chat_postMessage(
                 channel=self.channel_id,
-                text=":new: <%s|%s> is now available at %s" % (product['url'], product['name'], product['price']))
+                text=":new: <%s|%s> is now available at €%s" % (product['url'], product['name'], product['price']))
             SlackNotifier.__logger.debug("New product posted on Slack. product='%s'", product)
         except SlackApiError as e:
             SlackNotifier.__logger.error(
