@@ -1,5 +1,4 @@
 import logging
-import re
 
 import validators
 from scrapy.exceptions import DropItem
@@ -69,22 +68,12 @@ class ProductValidator:
         """
         Validates the price of a given item of :py:class:`src.domain.product.Product`.
 
-        Currency (€ or $ or £) or  may or may not exist as first or last character.
-        Amount can have decimal precision separated either by dot or comma (also optional).
-
-        Valid formats:
-         - 1
-         - 1.2345
-         - €1.2345
-         - €1,2345
-         - €1,2345€ # this verification is somewhat dummy and this would be valid
-         - £1.2345
-         - $1.2345
+        Only valid if it is non-negative.
 
         :param item: Product to be validated.
         :return: True if product passed validation, False otherwise.
         """
-        if re.match(r'^[€£$]?\d+([.,])?\d*[€£$]?$', item['price']) is not None:
+        if item['price'] >= 0:
             ProductValidator.__logger.debug("Product has valid price: '%s'", item)
             return True
 
