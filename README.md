@@ -8,6 +8,8 @@ This project can definitely be adapted for other pages. Continue reading for mor
 
 One final point, this project is currently deployed and running on Heroku.
 
+**Update**: ⚠️ Despite not having bought the Apple AirPods Pro (not available, yet), I got the regular ones. They are pretty good! I disabled my cronjob as I no longer need to be notified about new products. I'll set the repository in archive mode for now.
+
 ## Motivation
 
 I have some credit laying around in the Vodafone Business Store. While checking it, there was not much that got my attention, but I heard good stuff about the Apple AirPods Pro. At the time, they weren't available. Trust me, [I even asked it](https://forum.vodafone.pt/t5/Outros-Equipamentos/Disponibilidade-dos-AirPods-Pro-na-Loja-Online-Neg%C3%B3cios/m-p/374280). The answer was along the lines of _keep checking out_.
